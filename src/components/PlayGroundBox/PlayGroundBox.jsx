@@ -6,23 +6,22 @@ import {
   onPlaygroundClick,
   onGameStart,
   changePlayground,
-  activeCellToState
+  activeCellToState,
+  onGameStop
 } from "./../../actions";
 import { createRandomNum, selectRumdomCell } from "./../../util";
 import "./PlayGroundBox.scss";
 
 class PlayGroundBox extends React.Component {
   runGame = (delay = 2000) => {
-    this.gametimer = setInterval(this.myTimer, this.props.gameMode[1]);
+    this.props.onGameStart();
+    this.gametimer = setInterval(this.gameIntervalStep, this.props.gameMode[1]);
   };
-  myTimer = () => {
-    const { activCell, clickedCell } = this.props;
-    const arr = [...this.props.playGroundArr];
+  gameIntervalStep = () => {
+    const { activCell, clickedCell, playGroundArr } = this.props;
+    const arr = [...playGroundArr];
     if (activCell && clickedCell != activCell) {
-      arr[activCell.split("-")[0]][activCell.split("-")[1]] = -2
-      console.log(arr);
-    }else if(activCell && clickedCell ===activCell){
-      arr[activCell.split("-")[0]][activCell.split("-")[1]] = 1
+      arr[activCell.split("-")[0]][activCell.split("-")[1]] = -2;
     }
     const cell = selectRumdomCell(this.props.gameMode[0]);
     const { x, y } = cell;
@@ -30,36 +29,36 @@ class PlayGroundBox extends React.Component {
     if (arr[y][x] === 0) {
       this.props.activeCellToState(`${y}-${x}`);
       arr[y][x] = -1;
-      console.log("CELL", cell);
       this.props.changePlayground(arr);
     } else {
-      this.myTimer();
+      this.gameIntervalStep();
     }
   };
-  stopTimer = () => {
+  stopGame = () => {
     clearInterval(this.gametimer);
+    this.props.onGameStop();
   };
   onGameStart = () => {
     if (!this.props.isGameStart) {
       this.runGame();
     } else {
-      this.stopTimer();
+      this.stopGame();
     }
-
-    this.props.onGameStart();
   };
   onCellClick = val => {
+    const { activCell, playGroundArr } = this.props;
+
+    if (activCell === val) {
+      const arr = [...playGroundArr];
+      arr[activCell.split("-")[0]][activCell.split("-")[1]] = 1;
+      this.props.changePlayground(arr);
+    }
     this.props.onPlaygroundClick(val);
   };
   render() {
     return (
       <div className="play-ground-box">
         <GameNav startGame={this.onGameStart} />
-        <div>
-          <div>activCell: {this.props.activCell}</div>
-          <div>clickedCell: {this.props.clickedCell}</div>
-          <div>catch: {this.props.clickedCell === this.props.activCell? "true":"false"}</div>
-        </div>
         <PlayGround onCellClick={this.onCellClick} />
       </div>
     );
@@ -79,7 +78,8 @@ const mapDispatchToProps = {
   onGameStart,
   changePlayground,
   onPlaygroundClick,
-  activeCellToState
+  activeCellToState,
+  onGameStop
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlayGroundBox);

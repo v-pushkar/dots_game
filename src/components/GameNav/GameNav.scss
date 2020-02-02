@@ -10,6 +10,7 @@
     box-shadow: none;
     border: none;
     margin-right: 10px;
+    font-weight: 500;
     &:focus {
       outline: 0;
     }
@@ -25,5 +26,9 @@
     font-size: 18px;
     font-weight: 500;
     background-color: #f3f3f3;
+  }
+  .start-game-btn {
+    min-width: 150px;
+    color: white;
   }
 }

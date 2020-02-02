@@ -9,13 +9,23 @@ const GameNav = props => {
     const val = e.currentTarget.value;
     props.onUserNameEnter(val);
   };
-  const onModeSelect = val => {   
+  const onModeSelect = val => {
     props.onModeSelect(val);
   };
   const modeOptions = Object.keys(props.gameSettings).map(key => ({
     label: key,
     value: `${props.gameSettings[key].field}-${props.gameSettings[key].delay}`
   }));
+  const buttonNameAdd = () => {
+    const { isGameStart, gameResalt} = props;
+    if (props.isGameStart) {
+      return "STOP";
+    } else if (!isGameStart && gameResalt) {
+      return "PLAY AGAN";
+    } else {
+      return "PLAY";
+    }
+  };
   return (
     <nav className="game-nav">
       <div className="control-wrap">
@@ -30,10 +40,11 @@ const GameNav = props => {
       </div>
       <div className="control-wrap">
         <button
+        className="start-game-btn"
           onClick={props.startGame}
-          disabled={props.gameMode && props.userName.length >= 0 ? false : true}
+          disabled={props.gameMode && props.userName.length >= 3 ? false : true}
         >
-          {props.isGameStart ? "STOP" : "PLAY"}
+          {buttonNameAdd()}
         </button>
       </div>
     </nav>
@@ -44,7 +55,8 @@ const mapStateToProps = state => ({
   gameSettings: state.gameSettings,
   userName: state.userName,
   isGameStart: state.isGameStart,
-  gameMode: state.gameMode
+  gameMode: state.gameMode,
+  gameResalt:state.gameResalt
 });
 
 const mapDispatchToProps = { onUserNameEnter, onModeSelect, onGameStart };

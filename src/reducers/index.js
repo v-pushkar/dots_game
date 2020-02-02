@@ -1,6 +1,7 @@
 import { act } from "@testing-library/react";
 
 const initialState = {
+  gameResalt: null,
   gameSettings: {},
   winnersList: null,
   userName: "",
@@ -46,7 +47,16 @@ const reducer = (state = initialState, action) => {
     case "ON_GAME_START":
       return {
         ...state,
-        isGameStart: true
+        isGameStart: true,
+        gameResalt: { name: state.userName, winner: null, date: null }
+      };
+    case "ON_GAME_STOP":
+      return {
+        ...state,
+        isGameStart: false,
+        playGround: createPlayGround(parseInt(state.gameMode[0])),
+        activCell: null,
+        clickedCell: null
       };
     case "ON_CHANGE_PLAYGROUND":
       return {
@@ -59,7 +69,6 @@ const reducer = (state = initialState, action) => {
         activCell: action.payload
       };
     case "ON_PLAYGROUND_CLICK":
-      console.log("Clicked cell", action.payload);
       return {
         ...state,
         clickedCell: action.payload
