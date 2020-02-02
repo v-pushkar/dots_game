@@ -1,0 +1,29 @@
+.game-nav {
+  display: flex;
+  justify-content: space-between;
+  input,
+  button,
+  .Dropdown-control {
+    height: 40px;
+    padding: 0 15px;
+    border-radius: 5px;
+    box-shadow: none;
+    border: none;
+    margin-right: 10px;
+    &:focus {
+      outline: 0;
+    }
+  }
+  .Dropdown-control {
+    background-color: #cfd8dc;
+  }
+  button {
+    background-color: #7b8d93;
+  }
+  input {
+    color: #7b8d93;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: #f3f3f3;
+  }
+}
