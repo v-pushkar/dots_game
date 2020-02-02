@@ -14,12 +14,18 @@
     &:focus {
       outline: 0;
     }
+    &:disabled {
+      opacity: 0.5;
+      cursor: no-drop;
+    }
   }
   .Dropdown-control {
     background-color: #cfd8dc;
+    cursor: pointer;
   }
   button {
     background-color: #7b8d93;
+    cursor: pointer;
   }
   input {
     color: #7b8d93;

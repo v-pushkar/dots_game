@@ -1,21 +1,25 @@
 .game-matrix {
-  border-collapse: collapse;
+  //   border-collapse: collapse;
 
   td {
     width: 40px;
     height: 40px;
-    border: 1px solid;
+    border: 2px solid #cfd8dc;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    &.blue{
-        background-color: rgb(0, 132, 255);
+    cursor: pointer;
+    &:hover {
+      border-color: #777777;
     }
-    &.red{
-        background-color: tomato;
+    &.blue {
+      background-color: rgb(0, 132, 255);
     }
-    &.green{
-        background-color: greenyellow;
+    &.red {
+      background-color: tomato;
+    }
+    &.green {
+      background-color: greenyellow;
     }
   }
 }

@@ -1,7 +1,7 @@
 import { act } from "@testing-library/react";
 
 const initialState = {
-  gameResalt: null,
+  gameResalt: null,  
   gameSettings: {},
   winnersList: null,
   userName: "",
@@ -73,6 +73,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         clickedCell: action.payload
       };
+      case "ON_GET_WINNER":
+          return{
+              ...state,
+              gameResalt:{ name: state.userName, winner: action.payload, date: new Date() }
+          }
     default:
       return state;
   }

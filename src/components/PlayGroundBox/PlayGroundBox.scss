@@ -1,4 +1,18 @@
-.play-ground-box{
-    width: 60%;
-    padding: 30px;
+.play-ground-box {
+  width: 60%;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .message-row {
+    height: 40px;
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+  }
+  .info {
+    font-size: 14px;
+    color: grey;
+    margin-top: 10px;
+  }
 }

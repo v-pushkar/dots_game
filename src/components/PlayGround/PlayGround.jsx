@@ -27,9 +27,7 @@ class PlayGround extends PureComponent {
     if (this.props.gameMode) {
       return (
         <div className="PlayGroundWrapper">
-          <div className="game-info">
-            Play-ground size:{this.props.gameMode[0]}
-          </div>
+          
           <GameMatrix
             matrix={this.props.playGroundArr}
             onCellClick={this.onCellClick}

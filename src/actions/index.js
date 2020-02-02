@@ -20,21 +20,21 @@ export const onPlaygroundClick = val => ({
   payload: val
 });
 
-export const onGameStart = ()=>({
-    type: "ON_GAME_START"
-})
-export const onGameStop = ()=>({
-    type:"ON_GAME_STOP"
-})
-export const changePlayground = (data)=>({
-    type: "ON_CHANGE_PLAYGROUND",
-    payload:data
-})
-export const activeCellToState = (cell)=>({
-    type: "ACTIVE_CELL_GENERATE",
-    payload: cell
-})
-
+export const onGameStart = () => ({
+  type: "ON_GAME_START"
+});
+export const onGameStop = () => ({
+  type: "ON_GAME_STOP"
+});
+export const changePlayground = data => ({
+  type: "ON_CHANGE_PLAYGROUND",
+  payload: data
+});
+export const activeCellToState = cell => ({
+  type: "ACTIVE_CELL_GENERATE",
+  payload: cell
+});
+export const onGetWinner = name => ({ type: "ON_GET_WINNER", payload: name });
 export const ifGetError = err => ({
   type: "IF_GER_ERROR",
   payload: err

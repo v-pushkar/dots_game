@@ -17,7 +17,7 @@ const GameNav = props => {
     value: `${props.gameSettings[key].field}-${props.gameSettings[key].delay}`
   }));
   const buttonNameAdd = () => {
-    const { isGameStart, gameResalt} = props;
+    const { isGameStart, gameResalt } = props;
     if (props.isGameStart) {
       return "STOP";
     } else if (!isGameStart && gameResalt) {
@@ -36,17 +36,18 @@ const GameNav = props => {
           value={props.userName}
           type="text"
           onChange={onNameEnter}
+          placeholder={"enter name for start"}
         ></input>
       </div>
       <div className="control-wrap">
         <button
-        className="start-game-btn"
+          className="start-game-btn"
           onClick={props.startGame}
           disabled={props.gameMode && props.userName.length >= 3 ? false : true}
         >
           {buttonNameAdd()}
         </button>
-      </div>
+      </div>     
     </nav>
   );
 };
@@ -56,7 +57,7 @@ const mapStateToProps = state => ({
   userName: state.userName,
   isGameStart: state.isGameStart,
   gameMode: state.gameMode,
-  gameResalt:state.gameResalt
+  gameResalt: state.gameResalt
 });
 
 const mapDispatchToProps = { onUserNameEnter, onModeSelect, onGameStart };
