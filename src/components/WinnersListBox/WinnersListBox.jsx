@@ -25,6 +25,4 @@ const mapStateToProps = state => ({
   winnersList: state.winnersList
 });
 
-const mapDispatchToProps = {};
-
 export default connect(mapStateToProps, null)(WinnersListBox);

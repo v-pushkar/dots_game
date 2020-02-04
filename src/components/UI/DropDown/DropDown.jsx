@@ -7,8 +7,7 @@ const DropDown = props => {
   const onSelect = e => {
     props.onModeSelect(e.value);
   };
-  const options = props.options
-  const defaultOption = options[0];
+  const options = props.options  
   const isDisabled = !options.length > 0;
   return (
     <Dropdown

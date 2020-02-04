@@ -17,4 +17,5 @@ export default class GetData {
     const res = await this.getResource(url);
     return res;
   };
+ 
 }

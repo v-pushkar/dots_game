@@ -20,7 +20,7 @@ const GameNav = props => {
     const { isGameStart, gameResalt } = props;
     if (props.isGameStart) {
       return "STOP";
-    } else if (!isGameStart && gameResalt) {
+    } else if (!isGameStart && gameResalt.name) {
       return "PLAY AGAN";
     } else {
       return "PLAY";
@@ -47,7 +47,7 @@ const GameNav = props => {
         >
           {buttonNameAdd()}
         </button>
-      </div>     
+      </div>
     </nav>
   );
 };

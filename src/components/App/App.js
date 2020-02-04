@@ -8,30 +8,28 @@ import "./App.scss";
 const getData = new GetData();
 
 const App = props => {
-
-  const getDataFronServer = (url)=>{
+  const getDataFronServer = url => {
     getData
-    .getDataFromServer(url)
-    .then(data => {
-      if(url==="winners"){
-        props.winnersListToState(data);
-      }
-      if(url==="game-settings"){
-        props.getGameSettings(data)
-      }
-      
-    })
-    .then(() => {})
-    .catch();
-
-  }
+      .getDataFromServer(url)
+      .then(data => {
+        if (url === "winners") {
+          props.winnersListToState(data);
+        }
+        if (url === "game-settings") {
+          props.getGameSettings(data);
+        }
+      })
+      .then(() => {})
+      .catch();
+  };
   useEffect(() => {
-    getDataFronServer("winners")
-    getDataFronServer("game-settings")
-  }, []);
+    getDataFronServer("winners");
+    getDataFronServer("game-settings");
+  },[]);
   return (
-    <div className="App">
-      <h1>Game In Dots</h1>
+    <div className="App-wrapper">
+      <div className="page-title"><h1>Game In Dots</h1></div>
+      
       <div className="main-container">
         <PlayGround />
         <WinnerListBox />
@@ -46,7 +44,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  winnersListToState,getGameSettings
+  winnersListToState,
+  getGameSettings
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

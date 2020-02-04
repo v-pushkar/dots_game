@@ -1,7 +1,5 @@
-import { act } from "@testing-library/react";
-
 const initialState = {
-  gameResalt: null,  
+  gameResalt: { winner: null },
   gameSettings: {},
   winnersList: null,
   userName: "",
@@ -44,19 +42,28 @@ const reducer = (state = initialState, action) => {
         ...state,
         playGround: action.payload
       };
-    case "ON_GAME_START":
-      return {
-        ...state,
-        isGameStart: true,
-        gameResalt: { name: state.userName, winner: null, date: null }
-      };
+    // case "ON_GAME_START":
+    //   return {
+    //     ...state,
+    //     isGameStart: true,
+    //     gameResalt: { name: state.userName, winner: null, date: null }
+    //   };
     case "ON_GAME_STOP":
       return {
         ...state,
         isGameStart: false,
+        activCell: null,
+        clickedCell: null,
+        gameResalt: {name: state.userName, winner: null },
+      };
+    case "ON_GAME_START":
+      return {
+        ...state,
+        isGameStart: true,
         playGround: createPlayGround(parseInt(state.gameMode[0])),
         activCell: null,
-        clickedCell: null
+        clickedCell: null,
+        gameResalt: { name: state.userName, winner: null, date: null }
       };
     case "ON_CHANGE_PLAYGROUND":
       return {
@@ -73,11 +80,15 @@ const reducer = (state = initialState, action) => {
         ...state,
         clickedCell: action.payload
       };
-      case "ON_GET_WINNER":
-          return{
-              ...state,
-              gameResalt:{ name: state.userName, winner: action.payload, date: new Date() }
-          }
+    case "ON_GET_WINNER":
+      return {
+        ...state,
+        gameResalt: {
+          name: state.userName,
+          winner: action.payload,
+          date: new Date()
+        }
+      };
     default:
       return state;
   }

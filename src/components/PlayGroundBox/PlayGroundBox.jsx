@@ -8,9 +8,10 @@ import {
   changePlayground,
   activeCellToState,
   onGameStop,
-  onGetWinner
+  onGetWinner,
+  winnersListToState
 } from "./../../actions";
-import { selectRumdomCell } from "./../../util";
+import { selectRumdomCell, checkGameStatus, getDate } from "./../../util";
 import "./PlayGroundBox.scss";
 
 class PlayGroundBox extends React.Component {
@@ -22,7 +23,7 @@ class PlayGroundBox extends React.Component {
     const { activCell, clickedCell, playGroundArr, gameMode } = this.props;
     const arr = [...playGroundArr];
     this.isWinnerGet(arr);
-    if (activCell && clickedCell != activCell) {
+    if (activCell && clickedCell !== activCell) {
       arr[activCell.split("-")[0]][activCell.split("-")[1]] = -2;
     }
     const cell = selectRumdomCell(gameMode[0]);
@@ -49,32 +50,53 @@ class PlayGroundBox extends React.Component {
     }
   };
   isWinnerGet = arr => {
-    const checkedArr = arr.reduce((acc, it) => [...acc, ...it]);
-    const minWinPoints = Math.ceil(checkedArr.length / 2);
-    let userWins = 0;
-    let computerWins = 0;
-    checkedArr.forEach(it => {
-      if (it === 1) {
-        userWins += 1;
-      }
-      if (it === -2) {
-        computerWins += 1;
-      }
-    });
-    if (userWins >= minWinPoints || computerWins >= minWinPoints) {
+    const { onGetWinner, userName, isGameStart } = this.props;
+    const startus = checkGameStatus(arr);
+    if (startus && isGameStart) {
+      onGetWinner(startus);
+      const winnerName = startus === "user" ? userName : "Computer";
+      this.saveGameResalt(winnerName);
       this.stopGame();
+    } else {
+      return;
     }
+  };
+  saveGameResalt = winnerName => {    
+    fetch("https://starnavi-frontend-test-task.herokuapp.com/winners", {
+      method: "post",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        winner: winnerName,
+        date: getDate()
+      })
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        this.props.winnersListToState(data);
+      })
+      .catch(err => {
+        console.log("ERROR:", err);
+      });
   };
   onCellClick = val => {
-    const { activCell, playGroundArr } = this.props;
-    const arr = [...playGroundArr];
-    if (activCell === val) {
-      arr[activCell.split("-")[0]][activCell.split("-")[1]] = 1;
-      this.props.changePlayground(arr);
+    if (this.props.isGameStart) {
+      const { activCell, playGroundArr } = this.props;
+      const arr = [...playGroundArr];
+      if (activCell === val) {
+        arr[activCell.split("-")[0]][activCell.split("-")[1]] = 1;
+        this.props.changePlayground(arr);
+      }
+      this.props.onPlaygroundClick(val);
+      this.isWinnerGet(arr);
+    } else {
+      return;
     }
-    this.props.onPlaygroundClick(val);
-    this.isWinnerGet(arr);
   };
+
   render() {
     return (
       <div className="play-ground-box">
@@ -83,11 +105,11 @@ class PlayGroundBox extends React.Component {
           *select game mode and enter you name for start
         </div>
         <div className="message-row">
-          {this.props.gameResalt && (
+          {this.props.gameResalt.winner && (
             <h3>
-              {this.props.gameResalt.winner === this.props.gameResalt.name
-                ? `congratulations ${this.props.gameResalt.name},you are the winner!!!`
-                : "Sorry, you lost. Try again"}
+              {this.props.gameResalt.winner === "user"
+                ? `Congratulations ${this.props.gameResalt.name},you are the winner!!!`
+                : "Sorry, you lost. You can try again"}
             </h3>
           )}
         </div>
@@ -103,17 +125,18 @@ const mapStateToProps = state => ({
   isGameStart: state.isGameStart,
   activCell: state.activCell,
   clickedCell: state.clickedCell,
-  gameResalt: state.gameResalt
+  gameResalt: state.gameResalt,
+  userName: state.userName
 });
 
 const mapDispatchToProps = {
   onPlaygroundClick,
   onGameStart,
   changePlayground,
-  onPlaygroundClick,
   activeCellToState,
   onGameStop,
-  onGetWinner
+  onGetWinner,
+  winnersListToState
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlayGroundBox);
