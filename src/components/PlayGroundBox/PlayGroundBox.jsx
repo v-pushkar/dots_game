@@ -61,7 +61,7 @@ class PlayGroundBox extends React.Component {
       return;
     }
   };
-  saveGameResalt = winnerName => {    
+  saveGameResalt = winnerName => {
     fetch("https://starnavi-frontend-test-task.herokuapp.com/winners", {
       method: "post",
       headers: {
@@ -75,7 +75,6 @@ class PlayGroundBox extends React.Component {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         this.props.winnersListToState(data);
       })
       .catch(err => {
@@ -105,9 +104,9 @@ class PlayGroundBox extends React.Component {
           *select game mode and enter you name for start
         </div>
         <div className="message-row">
-          {this.props.gameResalt.winner && (
+          {this.props.winner && (
             <h3>
-              {this.props.gameResalt.winner === "user"
+              {this.props.winner === "user"
                 ? `Congratulations ${this.props.gameResalt.name},you are the winner!!!`
                 : "Sorry, you lost. You can try again"}
             </h3>
@@ -126,7 +125,8 @@ const mapStateToProps = state => ({
   activCell: state.activCell,
   clickedCell: state.clickedCell,
   gameResalt: state.gameResalt,
-  userName: state.userName
+  userName: state.userName,
+  winner: state.winner
 });
 
 const mapDispatchToProps = {

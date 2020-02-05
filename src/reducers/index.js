@@ -1,5 +1,6 @@
 const initialState = {
   gameResalt: { winner: null },
+  winner: null,
   gameSettings: {},
   winnersList: null,
   userName: "",
@@ -54,11 +55,12 @@ const reducer = (state = initialState, action) => {
         isGameStart: false,
         activCell: null,
         clickedCell: null,
-        gameResalt: {name: state.userName, winner: null },
+        gameResalt: { name: state.userName, winner: null }
       };
     case "ON_GAME_START":
       return {
         ...state,
+        winner: null,
         isGameStart: true,
         playGround: createPlayGround(parseInt(state.gameMode[0])),
         activCell: null,
@@ -81,10 +83,12 @@ const reducer = (state = initialState, action) => {
         clickedCell: action.payload
       };
     case "ON_GET_WINNER":
+     
       return {
         ...state,
+        winner: action.payload,
         gameResalt: {
-          name: state.userName,
+          ...state.gameResalt,
           winner: action.payload,
           date: new Date()
         }

@@ -34,7 +34,9 @@ export const activeCellToState = cell => ({
   type: "ACTIVE_CELL_GENERATE",
   payload: cell
 });
-export const onGetWinner = name => ({ type: "ON_GET_WINNER", payload: name });
+export const onGetWinner = name => {  
+  return { type: "ON_GET_WINNER", payload: name };
+};
 export const ifGetError = err => ({
   type: "IF_GER_ERROR",
   payload: err
